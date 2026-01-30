@@ -1,0 +1,114 @@
+{% extends "layout.html" %}
+{% block title %}Admin - Landon News{% endblock %}
+{% block content %}
+<div class="card">
+  <h2>Admin Dashboard</h2>
+
+  <h3>Users</h3>
+  <table style="width:100%;border-collapse:collapse">
+  <tr><th>ID</th><th>Username</th><th>Role</th><th>Change Role</th></tr>
+  {% for u in users %}
+    <tr style="border-bottom:1px solid rgba(0,0,0,0.04)">
+      <td style="padding:10px">{{ u.id }}</td>
+      <td style="padding:10px">{{ u.username }}</td>
+      <td style="padding:10px">{{ u.role }}</td>
+      <td style="padding:10px">
+        <form method="post" style="display:inline">
+          <input type="hidden" name="user_id" value="{{ u.id }}">
+          <select name="role">
+            <option value="user" {% if u.role=='user' %}selected{% endif %}>user</option>
+            <option value="editor" {% if u.role=='editor' %}selected{% endif %}>editor</option>
+            <option value="admin" {% if u.role=='admin' %}selected{% endif %}>admin</option>
+          </select>
+          <button type="submit" class="btn" style="margin-left:8px">Set</button>
+        </form>
+        <!-- API key management for admins -->
+        <div style="display:inline;margin-left:8px">
+        {% if u.api_key %}
+          <form method="post" action="/admin/users/{{ u.id }}/revoke_key" style="display:inline">
+            <button type="submit" class="btn" style="background:#c94a4a;color:#fff;padding:6px;border-radius:6px;border:none;">Revoke Key</button>
+          </form>
+          <button onclick="revealKey({{ u.id }})" style="margin-left:6px" class="btn">Reveal Key</button>
+        {% else %}
+          <form method="post" action="/admin/users/{{ u.id }}/generate_key" style="display:inline">
+            <button type="submit" class="btn">Generate Key</button>
+          </form>
+        {% endif %}
+        <a href="/admin/users/{{ u.id }}/edit" style="margin-left:8px" class="btn">Edit</a>
+        </div>
+      </td>
+    </tr>
+  {% endfor %}
+</table>
+
+  <p style="margin-top:12px">Admins can assign <code>editor</code> roles which should allow editing articles.</p>
+  <p>
+    Quick links:
+    <a href="/articles" class="btn">Manage Articles</a>
+    <a href="/editor" class="btn">Editor Console</a>
+    <a href="/admin/pages" class="btn">Manage Pages</a>
+  </p>
+
+  {% if api_key %}
+    <h3>Your API Key</h3>
+    <p>Use this key to authenticate API requests (send in header <code>X-API-Key</code> or <code>?api_key=</code>).</p>
+    <pre style="background:#f6f6f6;padding:8px;border-radius:6px">{{ api_key }}</pre>
+    <form method="post" action="/admin/regenerate_key" onsubmit="return confirm('Regenerate your API key? Old key will stop working.')">
+      <button type="submit" class="btn">Regenerate API Key</button>
+    </form>
+  {% endif %}
+
+<!-- Reveal key modal -->
+<div id="key-modal" style="display:none;position:fixed;left:0;right:0;top:0;bottom:0;background:rgba(0,0,0,0.5);align-items:center;justify-content:center">
+  <div style="background:white;padding:16px;border-radius:8px;max-width:600px;margin:80px auto;position:relative">
+    <h3>API Key</h3>
+    <pre id="modal-key" style="background:#f6f6f6;padding:8px;border-radius:6px;overflow:auto"></pre>
+    <p><button onclick="copyKey()" class="btn">Copy</button> <button onclick="closeModal()">Close</button></p>
+  </div>
+</div>
+
+<script>
+function revealKey(userId){
+  fetch(`/admin/users/${userId}/reveal_key_json`, { method: 'POST' })
+    .then(r=>r.json())
+    .then(j=>{
+      if(j.ok){
+        document.getElementById('modal-key').textContent = j.key;
+        document.getElementById('key-modal').style.display = 'flex';
+      } else {
+        alert(j.error || 'Could not reveal key');
+      }
+    })
+}
+function closeModal(){ document.getElementById('key-modal').style.display='none'; }
+function copyKey(){ navigator.clipboard.writeText(document.getElementById('modal-key').textContent); }
+</script>
+
+{% if last_generated %}
+  <!-- Modal showing newly generated key and usage instructions -->
+  <div id="generated-key-modal" style="position:fixed;left:0;right:0;top:0;bottom:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center">
+    <div style="background:white;padding:18px;border-radius:8px;max-width:760px">
+      <h3>API Key Generated for {{ last_generated.username }}</h3>
+      <p>The API key below was just generated. Treat it like a password — keep it secret.</p>
+      <pre style="background:#f6f6f6;padding:8px;border-radius:6px;overflow:auto">{{ last_generated.key }}</pre>
+      <h4>How to use this key</h4>
+      <p>Send it in the header <code>X-API-Key</code> or as a query param <code>?api_key=</code>. Example:</p>
+      <pre style="background:#f2f2f2;padding:8px">curl -X POST http://127.0.0.1:5000/api/pages/announcements \
+  -H "Content-Type: application/json" \
+  -H "X-API-Key: {{ last_generated.key }}" \
+  -d '{"title":"New","content":"<p>Updated</p>"}'</pre>
+      <p style="margin-top:8px">Press <strong>Close</strong> to dismiss. The key will not be shown again here.</p>
+      <p><button onclick="document.getElementById('generated-key-modal').style.display='none'" class="btn">Close</button></p>
+    </div>
+  </div>
+{% endif %}
+  <div style="margin-top:12px">
+    <form method="post" action="/admin/clear_content" onsubmit="return confirm('Delete ALL articles/submissions and clear all pages? This cannot be undone.')" style="display:inline">
+      <button type="submit" class="btn" style="background:#c94a4a;color:#fff;padding:8px 10px;border-radius:6px;border:none;cursor:pointer">Clear All Site Content</button>
+    </form>
+    <form method="post" action="/admin/seed_content" style="margin-top:10px;display:inline;margin-left:8px">
+      <button type="submit" class="btn">Seed Example Content</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block title %}{{ article.title }} - Landon News{% endblock %}
+{% block content %}
+<article class="card">
+  <h1>{{ article.title }}</h1>
+  <p class="meta">By {{ article.author }} · {{ article.created_at }} · Status: {{ article.status }}</p>
+  <div style="margin-top:12px">{{ article.content|safe }}</div>
+  <p style="margin-top:14px">
+    {% if user and user.role == 'admin' %}
+      <a class="btn" href="/article/{{ article.id }}/edit">Edit Article</a>
+    {% endif %}
+  </p>
+</article>
+{% endblock %}

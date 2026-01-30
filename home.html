@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Landon Middle News</title>
+    <style>
+        :root{
+            --brown:#5a3b2a;
+            --brown-dark:#422714;
+            --gold:#d4af37;
+            --white:#ffffff;
+            --muted:#f7f5f2;
+            --text:#2b2b2b;
+            --radius:10px;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+        }
+        *{box-sizing:border-box}
+        html,body{height:100%}
+        body{
+            margin:0;
+            background:linear-gradient(180deg,var(--muted),var(--white));
+            color:var(--text);
+            -webkit-font-smoothing:antialiased;
+            -moz-osx-font-smoothing:grayscale;
+            line-height:1.45;
+        }
+
+        /* Header */
+        .site-header{
+            background:var(--brown);
+            color:var(--white);
+            padding:18px 24px;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:16px;
+        }
+        .brand{
+            display:flex;
+            gap:12px;
+            align-items:center;
+        }
+        .logo{
+            width:56px;height:56px;
+            background:linear-gradient(135deg,var(--gold),rgba(255,215,0,0.6));
+            border-radius:12px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:var(--brown-dark);
+            font-weight:700;
+            font-size:18px;
+            box-shadow:0 3px 0 rgba(0,0,0,0.12) inset;
+        }
+        .site-title{font-size:20px;font-weight:700;letter-spacing:0.3px}
+        .site-tag{font-size:12px;opacity:0.95}
+
+        nav a{
+            color:var(--white);
+            text-decoration:none;
+            margin-left:14px;
+            font-weight:600;
+            padding:6px 8px;
+            border-radius:6px;
+        }
+        nav a:hover{background:rgba(255,255,255,0.06)}
+
+        /* Main layout */
+        .container{
+            max-width:1100px;
+            margin:28px auto;
+            padding:0 20px 56px;
+        }
+
+        .hero{
+            display:grid;
+            grid-template-columns:1fr;
+            gap:18px;
+            align-items:center;
+            background:linear-gradient(90deg, rgba(90,59,42,0.04), rgba(212,175,55,0.02));
+            padding:28px;
+            border-radius:var(--radius);
+        }
+        .hero-inner{display:flex;flex-direction:column;gap:12px}
+        .eyebrow{color:var(--brown-dark);font-weight:700;text-transform:uppercase;font-size:12px;letter-spacing:1px}
+        .hero h1{margin:0;font-size:28px;color:var(--brown-dark)}
+        .hero p{margin:0;color:#40332b;max-width:70ch}
+        .cta{
+            display:inline-block;
+            margin-top:8px;
+            background:var(--gold);
+            color:var(--brown-dark);
+            padding:10px 16px;
+            border-radius:8px;
+            text-decoration:none;
+            font-weight:700;
+        }
+
+        /* Grid of stories */
+        .grid{
+            margin-top:20px;
+            display:grid;
+            grid-template-columns:repeat(3,1fr);
+            gap:18px;
+        }
+        .card{
+            background:var(--white);
+            border-radius:12px;
+            padding:14px;
+            box-shadow:0 6px 18px rgba(38,28,20,0.06);
+            display:flex;
+            gap:12px;
+            align-items:flex-start;
+        }
+        .thumb{
+            width:120px;height:80px;border-radius:8px;
+            background:linear-gradient(135deg,var(--brown),var(--gold));
+            flex-shrink:0;
+            display:flex;align-items:center;justify-content:center;color:var(--white);
+            font-weight:700;
+            font-size:14px;
+        }
+        .card h3{margin:0;font-size:16px;color:var(--brown-dark)}
+        .card p{margin:6px 0 0;font-size:13px;color:#57443a}
+
+        /* Footer */
+        .site-footer{
+            margin-top:36px;
+            padding:20px;
+            background:var(--brown-dark);
+            color:var(--white);
+            border-radius:10px;
+            text-align:center;
+        }
+
+        /* Responsive */
+        @media (max-width:900px){
+            .grid{grid-template-columns:repeat(2,1fr)}
+            .hero h1{font-size:24px}
+        }
+        @media (max-width:560px){
+            .site-header{flex-direction:column;align-items:flex-start}
+            nav{display:flex;flex-wrap:wrap}
+            .grid{grid-template-columns:1fr}
+            .thumb{width:96px;height:64px}
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header" role="banner">
+        <div class="brand">
+            <div class="logo" aria-hidden="true">LN</div>
+            <div>
+                <div class="site-title">Landon Middle School News</div>
+                <div class="site-tag">Student voices · School life · Activities</div>
+            </div>
+        </div>
+        <nav role="navigation" aria-label="Main navigation">
+            <a href="/" aria-current="page">Home</a>
+            <a href="#">Announcements</a>
+            <a href="#">Clubs</a>
+            <a href="#">Sports</a>
+            <a href="#">Student Voices</a>
+            <a href="/submit" style="margin-left:18px">Submit</a>
+            <a href="/login">Login</a>
+            <a href="/signup">Sign Up</a>
+        </nav>
+    </header>
+
+    <main class="container" role="main">
+        <section class="hero" aria-labelledby="hero-heading">
+            <div class="hero-inner">
+                <div class="eyebrow">From Students, For Students</div>
+                <h1 id="hero-heading">Landon Middle News — school stories and student life</h1>
+                <p>News, events, and student voices from around Landon Middle School. Submit announcements, club updates, and stories.</p>
+                <a class="cta" href="#">See Announcements</a>
+            </div>
+        </section>
+
+        <section aria-labelledby="announcements" style="margin-top:22px">
+            <h2 id="announcements" style="margin:0 0 12px 0;color:var(--brown-dark)">Latest Articles</h2>
+            <div class="grid" role="list">
+                {% if articles and articles|length > 0 %}
+                  {% for a in articles %}
+                    <article class="card" role="listitem">
+                      <div class="thumb" aria-hidden="true">Art</div>
+                      <div>
+                        <h3>{{ a.title }}</h3>
+                        <p style="max-width:40ch">{{ a.content[:180] }}{% if a.content|length > 180 %}...{% endif %}</p>
+                        <small style="color:#7a665b">By {{ a.author }} · {{ a.created_at }}</small>
+                      </div>
+                    </article>
+                  {% endfor %}
+                {% else %}
+                  <p>No published articles yet — check back soon.</p>
+                {% endif %}
+            </div>
+        </section>
+
+        <footer class="site-footer" role="contentinfo">
+            <div style="max-width:900px;margin:0 auto">
+                <strong>Landon News</strong> — Go Bears! · <small style="opacity:0.9">© <span id="year"></span></small>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        // small enhancement: current year
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

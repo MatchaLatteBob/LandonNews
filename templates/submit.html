@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block title %}Submit - Landon Middle News{% endblock %}
+{% block content %}
+<div class="card">
+  <h1>Submit a Story or Announcement</h1>
+  <form method="post" action="/submit">
+    <label>Title<br><input name="title" required style="width:100%"></label><br><br>
+    <label>Category<br>
+      <select name="category">
+        <option>Announcement</option>
+        <option>Clubs</option>
+        <option>Sports</option>
+        <option>Student Voices</option>
+        <option>Other</option>
+      </select>
+    </label><br><br>
+    <label>Content<br><textarea name="content" rows="8" style="width:100%" required></textarea></label><br><br>
+    <label>Your name (optional)<br><input name="author" style="width:100%"></label><br><br>
+    <button type="submit" class="btn">Submit for Review</button>
+  </form>
+</div>
+{% endblock %}

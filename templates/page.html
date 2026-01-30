@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block title %}{{ title }} - Landon News{% endblock %}
+{% block content %}
+<article>
+  <h2>{{ title }}</h2>
+  <div>{{ content|safe }}</div>
+  {% if session.user and session.user.role == 'admin' %}
+    <p style="margin-top:12px"><a class="btn" href="/admin/pages/{{ request.path.split('/')[-1] }}/edit">Edit Page</a></p>
+  {% endif %}
+</article>
+{% endblock %}

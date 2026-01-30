@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+{% block title %}Landon Middle News{% endblock %}
+{% block content %}
+<header class="card" style="margin-bottom:18px">
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+    <div>
+      <h1>Landon Middle News</h1>
+      <p style="margin:6px 0 0;color:var(--muted)">Student news, club updates, sports results, and school announcements.</p>
+    </div>
+    <div>
+      <a class="btn" href="/submit">Submit Story</a>
+    </div>
+  </div>
+</header>
+
+<section id="announcements">
+  <h2>Latest Published Articles</h2>
+  {% if articles and articles|length > 0 %}
+    <div class="grid">
+      {% for a in articles %}
+        <article class="card">
+          <h3 style="margin-bottom:6px"><a class="link" href="/article/{{ a.id }}">{{ a.title }}</a></h3>
+          <p class="meta">By {{ a.author }} · {{ a.created_at }}</p>
+          <div style="margin-top:10px;color:#333">{{ a.content[:300]|safe }}{% if a.content|length > 300 %}...{% endif %}</div>
+          <p style="margin-top:12px"><a style="color:var(--accent);font-weight:700" href="/article/{{ a.id }}">Read more →</a></p>
+        </article>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="card">No published articles yet.</div>
+  {% endif %}
+</section>
+
+<section style="margin-top:22px">
+  <h2>Student Spotlight</h2>
+  <div class="card">
+    <p>Celebrate achievements from around the school — science fair winners, art show highlights, and more.</p>
+  </div>
+</section>
+{% endblock %}

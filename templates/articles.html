@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% block title %}Articles{% endblock %}
+{% block content %}
+<div class="card">
+  <h2>Articles</h2>
+  <table style="width:100%;border-collapse:collapse">
+    <tr style="border-bottom:1px solid rgba(0,0,0,0.06)"><th style="text-align:left;padding:8px">ID</th><th style="text-align:left;padding:8px">Title</th><th style="padding:8px">Author</th><th style="padding:8px">Status</th><th style="padding:8px">Actions</th></tr>
+    {% for a in articles %}
+      <tr>
+        <td style="padding:8px">{{ a.id }}</td>
+        <td style="padding:8px">{{ a.title }}</td>
+        <td style="padding:8px">{{ a.author }}</td>
+        <td style="padding:8px">{{ a.status }}</td>
+        <td style="padding:8px">
+          <a href="/article/{{ a.id }}" class="btn">View</a>
+          {% if user and (user.role == 'admin' or user.username == a.author) %}
+            <a href="/article/{{ a.id }}/edit" class="btn">Edit</a>
+          {% endif %}
+          {% if user and user.role == 'admin' and a.status != 'published' %}
+            <form method="post" action="/article/{{ a.id }}/publish" style="display:inline;margin-left:6px">
+              <button type="submit" class="btn">Publish</button>
+            </form>
+          {% endif %}
+        </td>
+      </tr>
+    {% else %}
+      <tr><td colspan="5" style="padding:8px">No articles found.</td></tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}

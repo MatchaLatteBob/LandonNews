@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block title %}Edit User{% endblock %}
+{% block content %}
+<h2>Edit User — {{ user.username }}</h2>
+<form method="post">
+  <label>Username<br><input name="username" value="{{ user.username }}" required style="width:100%"></label>
+  <p>
+    <label>Email<br><input name="email" type="email" value="{{ user.email }}" style="width:100%"></label>
+  </p>
+  <p>
+    <label>Role<br>
+      <select name="role">
+        <option value="user" {% if user.role=='user' %}selected{% endif %}>user</option>
+        <option value="editor" {% if user.role=='editor' %}selected{% endif %}>editor</option>
+        <option value="admin" {% if user.role=='admin' %}selected{% endif %}>admin</option>
+      </select>
+    </label>
+  </p>
+  <p>
+    <button class="btn" type="submit">Save</button>
+    <a href="/admin" style="margin-left:12px">Back</a>
+  </p>
+</form>
+
+<p>
+  <form method="post" action="/admin/users/{{ user.id }}/generate_key" style="display:inline">
+    <button type="submit" class="btn">Generate Key</button>
+  </form>
+  {% if user.api_key %}
+    <form method="post" action="/admin/users/{{ user.id }}/revoke_key" style="display:inline;margin-left:8px">
+      <button type="submit" style="background:#c94a4a;color:#fff;padding:6px;border-radius:6px;border:none;">Revoke Key</button>
+    </form>
+    <form method="post" action="/admin/users/{{ user.id }}/reveal_key" style="display:inline;margin-left:8px">
+      <button type="submit">Reveal Key</button>
+    </form>
+  {% endif %}
+</p>
+
+{% endblock %}
