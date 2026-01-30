@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block title %}Sign Up - Landon News{% endblock %}
+{% block content %}
+<h2>Create an account</h2>
+<form method="post" action="/signup">
+  <label>Username<br><input name="username" required style="width:100%"></label><br><br>
+  <label>Email (optional)<br><input name="email" type="email" style="width:100%"></label><br><br>
+  <label>Password<br><input type="password" name="password" required style="width:100%"></label><br><br>
+  <button type="submit">Sign up</button>
+</form>
+<p>Already have an account? <a href="/login">Log in</a></p>
+{% endblock %}

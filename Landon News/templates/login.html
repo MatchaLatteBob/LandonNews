@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block title %}Login - Landon News{% endblock %}
+{% block content %}
+<h2>Login</h2>
+<form method="post" action="/login">
+  <label>Username<br><input name="username" required style="width:100%"></label><br><br>
+  <label>Password<br><input type="password" name="password" required style="width:100%"></label><br><br>
+  <button type="submit">Log in</button>
+</form>
+<p>Don't have an account? <a href="/signup">Sign up</a></p>
+{% endblock %}

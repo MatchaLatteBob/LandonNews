@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block title %}API Audit Logs{% endblock %}
+{% block content %}
+<h2>API Audit Logs</h2>
+<table>
+  <tr><th>Time</th><th>User</th><th>Endpoint</th><th>Method</th><th>Action</th><th>Target</th><th>Data</th></tr>
+  {% for l in logs %}
+    <tr>
+      <td>{{ l.created_at }}</td>
+      <td>{{ l.username }} ({{ l.user_id }})</td>
+      <td>{{ l.endpoint }}</td>
+      <td>{{ l.method }}</td>
+      <td>{{ l.action }}</td>
+      <td>{{ l.target }}</td>
+      <td style="max-width:40ch;overflow:auto">{{ l.data }}</td>
+    </tr>
+  {% endfor %}
+</table>
+{% endblock %}

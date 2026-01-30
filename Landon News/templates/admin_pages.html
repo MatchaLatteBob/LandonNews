@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block title %}Manage Pages{% endblock %}
+{% block content %}
+<div class="card">
+  <h2>Manage Site Pages</h2>
+  <p>Click a page to edit content shown on the public site.</p>
+  <table style="width:100%;border-collapse:collapse">
+    <tr style="border-bottom:1px solid rgba(0,0,0,0.06)"><th style="padding:8px">Slug</th><th style="padding:8px">Title</th><th style="padding:8px">Last updated</th><th></th></tr>
+    {% for p in pages %}
+      <tr>
+        <td style="padding:8px">{{ p.slug }}</td>
+        <td style="padding:8px">{{ p.title }}</td>
+        <td style="padding:8px">{{ p.updated_at }}</td>
+        <td style="padding:8px"><a href="/admin/pages/{{ p.slug }}/edit" class="btn">Edit</a></td>
+      </tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}
