@@ -58,7 +58,13 @@ Example: deploy to Render (manual steps)
 Deployment to Heroku via GitHub
 --------------------------------
 
-This repository includes a GitHub Actions workflow that can deploy the app to Heroku when you push to `main`.
+This repository includes a GitHub Actions workflow that runs on every push to `main`.
+
+The workflow:
+- Installs Python 3.11 and dependencies from `requirements.txt`
+- Checks Python syntax
+- Runs an import sanity check on `app.py`
+- Optionally runs flake8 (lint) and pytest (tests) if they are installed
 
 Steps to deploy from your machine (PowerShell):
 
@@ -73,13 +79,9 @@ git remote add origin https://github.com/<your-username>/<your-repo>.git
 git push -u origin main
 ```
 
-Repository secrets required (add in GitHub > Settings > Secrets):
+After pushing to `main`, the workflow will run automatically. Check the Actions tab on GitHub to see the build status.
 
-- `HEROKU_API_KEY` — your Heroku API key (found in Heroku account settings)
-- `HEROKU_APP_NAME` — the target Heroku app name (create the app first on Heroku)
-- `HEROKU_EMAIL` — the Heroku account email
+For a production deployment, you can configure Render, Fly.io, or another hosting provider to pull this repository and deploy it.
 
-Once those secrets are set, any push to `main` will run the workflow and deploy the current app to the specified Heroku app.
-
-If you instead want automated builds to a container registry or another host, let me know and I can add a workflow for GHCR, Docker Hub, or Render.
+If you instead want automated builds to a container registry or another target, let me know and I can add a workflow for GHCR, Docker Hub, or Render.
 
