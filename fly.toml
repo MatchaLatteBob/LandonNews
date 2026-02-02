@@ -1,0 +1,27 @@
+# Fly.io configuration for Landon News
+app = "landon-news"
+primary_region = "iad"
+
+[build]
+dockerfile = "Dockerfile"
+
+[env]
+SECRET_KEY = "change-this-to-a-strong-random-key"
+
+[[services]]
+protocol = "tcp"
+internal_port = 8080
+processes = ["app"]
+
+  [services.concurrency]
+  type = "connections"
+  hard_limit = 100
+  soft_limit = 80
+
+  [[services.ports]]
+  port = 80
+  handlers = ["http"]
+
+  [[services.ports]]
+  port = 443
+  handlers = ["tls", "http"]
