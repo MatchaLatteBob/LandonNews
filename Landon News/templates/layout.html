@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>{% block title %}Landon News{% endblock %}</title>
+    <style>
+      :root{--brand:#5a3b2a;--accent:#d4af37;--bg:#fbf8f5;--card:#ffffff;--muted:#6b5a4a;--text:#0b2a33}
+      html,body{height:100%;}
+      body{font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; margin:0; padding:0; background:var(--bg); color:var(--text);transition:background-color .25s,color .25s}
+      /* warm brown/gold topbar and subtle patterned background */
+      .topbar{background:linear-gradient(90deg,var(--brand),#402a20);color:white;padding:12px 0}
+      .topbar .inner{max-width:1100px;margin:0 auto;padding:0 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+      .topbar .brand{font-weight:800;font-size:20px;letter-spacing:0.2px}
+      .topbar .actions{display:flex;align-items:center;gap:10px}
+      .topbar a{color:rgba(255,255,255,0.95);text-decoration:none;font-weight:700}
+      .container{max-width:1100px;margin:22px auto;padding:0 20px}
+      nav.site-nav{display:flex;gap:10px;flex-wrap:wrap;background:transparent;padding:8px 0;margin-top:8px}
+      nav.site-nav a{color:var(--brand);margin-right:8px;text-decoration:none;padding:8px 12px;border-radius:999px;background:transparent;font-weight:700}
+      nav.site-nav a:hover{background:rgba(7,75,106,0.06)}
+      .flash{background:#fffaf0;padding:12px;border-left:4px solid var(--accent);margin:12px 0;border-radius:8px}
+      .btn{background:var(--accent);color:var(--brand);padding:8px 12px;border-radius:8px;border:none;cursor:pointer;font-weight:700;box-shadow:0 3px 8px rgba(212,175,55,0.12)}
+      .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+      .card{background:var(--card);border-radius:12px;padding:16px;box-shadow:0 8px 24px rgba(90,59,42,0.06);border:1px solid rgba(90,59,42,0.06)}
+      .meta{color:var(--muted);font-size:13px}
+      h1,h2,h3{color:var(--brand);margin-top:0}
+      a.link{color:var(--brand);text-decoration:none}
+      /* subtle diagonal paper texture using SVG data URI */
+      body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background-image:radial-gradient(circle at 10% 10%, rgba(212,175,55,0.03), transparent 10%), linear-gradient(135deg, rgba(0,0,0,0.02) 0px, rgba(0,0,0,0.02) 1px, transparent 1px);background-size:100% 100%, 6px 6px;}
+      footer{margin:40px 0 80px;color:#64727a;text-align:center}
+      /* dark mode variables */
+      body.dark{--bg:#0f0c0a;--card:#1b1512;--brand:#d4af37;--accent:#c7a43a;--muted:#cdbb9a;--text:#f6efe6}
+      /* smooth transitions for cards and backgrounds */
+      .card, .btn, .topbar, nav.site-nav, .flash{transition:background-color .2s,box-shadow .2s,color .2s}
+      input[type=text], textarea{font-family:inherit;padding:10px;border:1px solid #e6eef2;border-radius:8px;width:100%}
+      @media (max-width:600px){.topbar .actions{display:none}}
+    </style>
+  </head>
+  <body>
+    <div class="topbar">
+      <div class="inner">
+        <div class="brand">Landon Middle News</div>
+        <div class="actions">
+          <button id="dark-toggle" title="Toggle dark mode" aria-label="Toggle dark mode" style="background:transparent;border:none;cursor:pointer;color:inherit">🌙</button>
+          {% if session.user %}
+            <span style="margin-left:6px">Signed in as {{ session.user.username }}</span>
+            <a href="/logout">Logout</a>
+            {% if session.user.role == 'admin' %}
+              <a href="/admin">Admin</a>
+            {% endif %}
+          {% else %}
+            <a href="/login">Login</a>
+            <a href="/signup">Sign Up</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <nav style="background:#f2efe8;padding:10px">
+      <div class="container">
+        <a href="/">Home</a>
+        <a href="/announcements" style="margin-left:12px">Announcements</a>
+        <a href="/clubs" style="margin-left:12px">Clubs</a>
+        <a href="/sports" style="margin-left:12px">Sports</a>
+        <a href="/voices" style="margin-left:12px">Student Voices</a>
+        <a href="/highlights" style="margin-left:12px">Highlights</a>
+        {% if session.user and session.user.role in ['editor','admin'] %}
+          <a href="/editor" style="margin-left:12px">Editor</a>
+        {% endif %}
+        <a href="/submit" style="margin-left:12px">Submit</a>
+      </div>
+    </nav>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="flash container">
+          {% for msg in messages %}{{ msg }} {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+    <div class="container">
+      {% block content %}{% endblock %}
+    </div>
+    <script>
+      (function(){
+        const btn = document.getElementById('dark-toggle');
+        if(!btn) return;
+        const storageKey = 'landon_theme_v1';
+        const setMode = (m) => {
+          if(m === 'dark') document.body.classList.add('dark'); else document.body.classList.remove('dark');
+          btn.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+        };
+        // initial: localStorage -> prefers-color-scheme -> light
+        let mode = localStorage.getItem(storageKey) || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        setMode(mode);
+        btn.addEventListener('click', function(){
+          const now = document.body.classList.contains('dark') ? 'light' : 'dark';
+          localStorage.setItem(storageKey, now);
+          setMode(now);
+        });
+      })();
+    </script>
+  </body>
+</html>

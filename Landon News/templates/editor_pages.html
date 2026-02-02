@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block title %}Editable Pages - Editor{% endblock %}
+{% block content %}
+<h2>Editable Pages</h2>
+<p>Choose a page to edit:</p>
+<table>
+  <tr><th>Slug</th><th>Title</th><th>Updated</th><th></th></tr>
+  {% for p in pages %}
+  <tr>
+    <td>{{ p.slug }}</td>
+    <td>{{ p.title }}</td>
+    <td>{{ p.updated_at }}</td>
+    <td><a class="btn" href="/editor/pages/{{ p.slug }}/edit">Edit</a></td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}
