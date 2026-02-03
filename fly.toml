@@ -5,6 +5,10 @@ primary_region = "iad"
 [build]
 dockerfile = "Dockerfile"
 
+[env]
+SECRET_KEY = "FlyV1 fm2_lJPECAAAAAAAEUwHxBALrrQVFoAtMwWG7oxeFdH9wrVodHRwczovL2FwaS5mbHkuaW8vdjGUAJLOABZF1R8Lk7lodHRwczovL2FwaS5mbHkuaW8vYWFhL3YxxDz3fq42Ramvgo4CKnH/bj/4PLDKm5RtgfreTqkhLNtZ9W4pzFL4Z+YqYFc6QWqXBYv8fjMSX4XWcozKSGvETiai68ins4VV+gGH1OghFBeulcgC9XatQqmkgPe53qY00jBKJo3SXwRsA0VESnXHI0jyMSdLRT49wt1QWpsWKRT0t9/5qkRXNE1QVHoZUcQg4hjc0yrjhzeZ27UDbplTClbo0mxDE++xTePCz9V8Ja8=,fm2_lJPETiai68ins4VV+gGH1OghFBeulcgC9XatQqmkgPe53qY00jBKJo3SXwRsA0VESnXHI0jyMSdLRT49wt1QWpsWKRT0t9/5qkRXNE1QVHoZUcQQ40eGjvpKAAcJ1cuKUI+QPMO5aHR0cHM6Ly9hcGkuZmx5LmlvL2FhYS92MZgEks5pgiEuzwAAAAElej9MF84AFWCKCpHOABVgigzEECn+VXCqRRia3q144q52Mr/EIPCcGtaC0ukoEpRYlFHJR0WU7YuYnj1rtNIIl0U0fOTe"
+FLASK_ENV = "production"
+
 [[services]]
 protocol = "tcp"
 internal_port = 5000
