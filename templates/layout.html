@@ -5,11 +5,20 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>{% block title %}Landon News{% endblock %}</title>
     <style>
-      :root{--brand:#5a3b2a;--accent:#d4af37;--bg:#fbf8f5;--card:#ffffff;--muted:#6b5a4a;--text:#0b2a33}
+      /* Modern, accessible palette */
+      :root{
+        --brand:#0f4c75; /* deep teal */
+        --accent:#f6c85f; /* warm gold */
+        --bg:#f7fafc; /* very light */
+        --card:#ffffff;
+        --muted:#55636a;
+        --text:#072033;
+        --nav-bg:rgba(15,76,117,0.06);
+        --radius:12px;
+      }
       html,body{height:100%;}
       body{font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; margin:0; padding:0; background:var(--bg); color:var(--text);transition:background-color .25s,color .25s}
-      /* warm brown/gold topbar and subtle patterned background */
-      .topbar{background:linear-gradient(90deg,var(--brand),#402a20);color:white;padding:12px 0}
+      .topbar{background:linear-gradient(90deg,var(--brand),#0b3a5a);color:white;padding:12px 0}
       .topbar .inner{max-width:1100px;margin:0 auto;padding:0 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
       .topbar .brand{font-weight:800;font-size:20px;letter-spacing:0.2px}
       .topbar .actions{display:flex;align-items:center;gap:10px}
@@ -17,23 +26,40 @@
       .container{max-width:1100px;margin:22px auto;padding:0 20px}
       nav.site-nav{display:flex;gap:10px;flex-wrap:wrap;background:transparent;padding:8px 0;margin-top:8px}
       nav.site-nav a{color:var(--brand);margin-right:8px;text-decoration:none;padding:8px 12px;border-radius:999px;background:transparent;font-weight:700}
-      nav.site-nav a:hover{background:rgba(7,75,106,0.06)}
-      .flash{background:#fffaf0;padding:12px;border-left:4px solid var(--accent);margin:12px 0;border-radius:8px}
-      .btn{background:var(--accent);color:var(--brand);padding:8px 12px;border-radius:8px;border:none;cursor:pointer;font-weight:700;box-shadow:0 3px 8px rgba(212,175,55,0.12)}
+      nav.site-nav a:hover{background:var(--nav-bg)}
+      .flash{background:linear-gradient(180deg,#fff9e6,#fff5dc);padding:12px;border-left:4px solid var(--accent);margin:12px 0;border-radius:8px;color:var(--text)}
+      .btn{background:var(--brand);color:white;padding:10px 14px;border-radius:10px;border:none;cursor:pointer;font-weight:700;box-shadow:0 6px 18px rgba(15,76,117,0.08)}
+      .btn.secondary{background:transparent;color:var(--brand);border:1px solid rgba(15,76,117,0.08)}
       .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
-      .card{background:var(--card);border-radius:12px;padding:16px;box-shadow:0 8px 24px rgba(90,59,42,0.06);border:1px solid rgba(90,59,42,0.06)}
+      .card{background:var(--card);border-radius:var(--radius);padding:20px;box-shadow:0 8px 30px rgba(9,30,38,0.04);border:1px solid rgba(9,30,38,0.04)}
       .meta{color:var(--muted);font-size:13px}
       h1,h2,h3{color:var(--brand);margin-top:0}
       a.link{color:var(--brand);text-decoration:none}
-      /* subtle diagonal paper texture using SVG data URI */
-      body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background-image:radial-gradient(circle at 10% 10%, rgba(212,175,55,0.03), transparent 10%), linear-gradient(135deg, rgba(0,0,0,0.02) 0px, rgba(0,0,0,0.02) 1px, transparent 1px);background-size:100% 100%, 6px 6px;}
+      body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background-image:radial-gradient(circle at 10% 10%, rgba(15,76,117,0.02), transparent 10%), linear-gradient(135deg, rgba(0,0,0,0.01) 0px, rgba(0,0,0,0.01) 1px, transparent 1px);background-size:100% 100%, 8px 8px}
       footer{margin:40px 0 80px;color:#64727a;text-align:center}
-      /* dark mode variables */
-      body.dark{--bg:#0f0c0a;--card:#1b1512;--brand:#d4af37;--accent:#c7a43a;--muted:#cdbb9a;--text:#f6efe6}
-      /* smooth transitions for cards and backgrounds */
-      .card, .btn, .topbar, nav.site-nav, .flash{transition:background-color .2s,box-shadow .2s,color .2s}
-      input[type=text], textarea{font-family:inherit;padding:10px;border:1px solid #e6eef2;border-radius:8px;width:100%}
-      @media (max-width:600px){.topbar .actions{display:none}}
+
+      /* dark mode variables (improved contrast) */
+      body.dark{
+        --bg:#071422;
+        --card:#0b2836;
+        --brand:#f6c85f; /* brand becomes warm accent in dark */
+        --accent:#e9b84a;
+        --muted:#9fb3bd;
+        --text:#e6f6fb;
+        --nav-bg:rgba(246,200,95,0.08);
+      }
+
+      /* smooth transitions for cards and interactive elements */
+      .card, .btn, .topbar, nav.site-nav, .flash, input, textarea{transition:background-color .2s,box-shadow .2s,color .2s,border-color .2s}
+
+      /* forms */
+      .form-wrap{max-width:480px;margin:28px auto;padding:22px;border-radius:14px}
+      label{display:block;font-weight:600;margin-bottom:6px}
+      input[type=text], input[type=password], input[type=email], textarea{font-family:inherit;padding:12px;border:1px solid rgba(9,30,38,0.08);border-radius:10px;width:100%;background:transparent;color:inherit}
+      input:focus, textarea:focus{outline:none;border-color:var(--brand);box-shadow:0 6px 20px rgba(15,76,117,0.08)}
+      .form-actions{display:flex;gap:12px;align-items:center;margin-top:12px}
+
+      @media (max-width:600px){.topbar .actions{display:none}.container{margin:12px auto}}
     </style>
   </head>
   <body>

@@ -5,12 +5,9 @@ primary_region = "iad"
 [build]
 dockerfile = "Dockerfile"
 
-[env]
-SECRET_KEY = "change-this-to-a-strong-random-key"
-
 [[services]]
 protocol = "tcp"
-internal_port = 8080
+internal_port = 5000
 processes = ["app"]
 
   [services.concurrency]
@@ -25,3 +22,9 @@ processes = ["app"]
   [[services.ports]]
   port = 443
   handlers = ["tls", "http"]
+
+# If you want persistent SQLite storage, create a Fly volume and add a mounts block like:
+# [[mounts]]
+#   source = "landon-news-data"
+#   destination = "/app"
+# Create the volume with: `fly volumes create landon-news-data --size 1 --region iad`

@@ -1,12 +1,24 @@
 {% extends "layout.html" %}
 {% block title %}Sign Up - Landon News{% endblock %}
 {% block content %}
-<h2>Create an account</h2>
-<form method="post" action="/signup">
-  <label>Username<br><input name="username" required style="width:100%"></label><br><br>
-  <label>Email (optional)<br><input name="email" type="email" style="width:100%"></label><br><br>
-  <label>Password<br><input type="password" name="password" required style="width:100%"></label><br><br>
-  <button type="submit">Sign up</button>
-</form>
-<p>Already have an account? <a href="/login">Log in</a></p>
+<div class="form-wrap card">
+  <h2 style="margin-top:0">Create an account</h2>
+  <p style="margin-top:0;color:var(--muted)">Join Landon News to submit stories and comment.</p>
+  <form method="post" action="/signup">
+    <label>Username
+      <input name="username" required>
+    </label>
+    <label style="margin-top:12px">Email (optional)
+      <input name="email" type="email">
+    </label>
+    <label style="margin-top:12px">Password
+      <input type="password" name="password" required>
+    </label>
+    <div class="form-actions">
+      <button type="submit" class="btn">Sign up</button>
+      <a href="/login" class="btn secondary" style="text-decoration:none;padding:8px 12px;display:inline-flex;align-items:center">Already have an account</a>
+    </div>
+  </form>
+</div>
+<p style="text-align:center;margin-top:8px;color:var(--muted)">Need help? Contact an administrator.</p>
 {% endblock %}

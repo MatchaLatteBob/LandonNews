@@ -1,11 +1,21 @@
 {% extends "layout.html" %}
 {% block title %}Login - Landon News{% endblock %}
 {% block content %}
-<h2>Login</h2>
-<form method="post" action="/login">
-  <label>Username<br><input name="username" required style="width:100%"></label><br><br>
-  <label>Password<br><input type="password" name="password" required style="width:100%"></label><br><br>
-  <button type="submit">Log in</button>
-</form>
-<p>Don't have an account? <a href="/signup">Sign up</a></p>
+<div class="form-wrap card">
+  <h2 style="margin-top:0">Welcome back</h2>
+  <p style="margin-top:0;color:var(--muted)">Log in to access editor features and submit articles.</p>
+  <form method="post" action="/login">
+    <label>Username
+      <input name="username" required>
+    </label>
+    <label style="margin-top:12px">Password
+      <input type="password" name="password" required>
+    </label>
+    <div class="form-actions">
+      <button type="submit" class="btn">Log in</button>
+      <a href="/" class="btn secondary" style="text-decoration:none;padding:8px 12px;display:inline-flex;align-items:center">Cancel</a>
+    </div>
+  </form>
+  <p style="margin-top:12px">Don't have an account? <a href="/signup">Create one</a></p>
+</div>
 {% endblock %}
