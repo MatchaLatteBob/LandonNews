@@ -15,6 +15,6 @@ jobs:
       - name: Deploy to Fly
         uses: superfly/flyctl-action@v1
         with:
-          args: "deploy --config fly.toml"
+          args: "deploy --remote-only"
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
